@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-autowire="byName"
+	default-lazy-init="false" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- user id name age Spring MyBatis -->
+	 
+	 
+ 	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="com.mysql.jdbc.Driver" 
+		p:url="jdbc:mysql://localhost:3306/mybatis"
+		p:username="root" 
+		p:password="wanwan" />
+ 
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource="#{dataSource}" />
+
+
+	<tx:annotation-driven />
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource="#{dataSource}" p:typeAliasesPackage="com.demo.bean">
+		<!--dataSource属性指定要用到的连接池 -->
+		<!-- <property name="dataSource" ref="dataSource" /> -->
+		<!--configLocation属性指定mybatis的核心配置文件 -->
+		<!-- <property name="typeAliasesPackage" value="com.demo.bean"/> -->
+		<!-- 所有配置的mapper文件 -->
+		<!-- <property name="mapperLocations" value="classpath*:/com/demo/mapper/*.xml" 
+			/> -->
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.demo.mapper" />
+
+</beans>
+
+
+
